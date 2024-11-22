@@ -1,3 +1,7 @@
-/* 
-    General Styles
-*/
+body{
+    background-color: black;
+    color: white;
+    background-size: cover;   
+    background-attachment: fixed;
+    background: url('https://img.clipart-library.com/2/clip-sparkling-gif/clip-sparkling-gif-25.gif');
+}

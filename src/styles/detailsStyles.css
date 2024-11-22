@@ -1,0 +1,17 @@
+.img-container-img{
+    justify-content: center;
+    padding: 8px;
+    border: 1px solid #ffd813f8;
+    border-radius: 15px;
+}
+.details_text_properties {
+    border-bottom: 1px solid #ffd813f8;
+    /*display: flex;*/
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+/*media*/
+@media (width <= 915px) {
+
+  }

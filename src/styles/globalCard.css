@@ -1,0 +1,18 @@
+.card_fig_caption{
+    height: 40p;
+    font-size: 20px;
+    font-weight: 500;
+}
+.card.card_styles{
+    background-color: #ffd813f8 !important;
+    color: black !important;
+    border: 1px solid #ffd813f8;
+}
+.btn.btn-styles{
+    border: 1px solid black;
+    color: black;
+}
+.btn.btn-styles:hover{
+    border: 1px solid white;
+    color: white;
+}

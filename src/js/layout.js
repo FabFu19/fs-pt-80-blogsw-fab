@@ -2,18 +2,19 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
-import { Home } from "./views/home";
-import { Demo } from "./views/demo";
-import { Single } from "./views/single";
+
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import { DetailsForAll } from "./views/swaDetails.jsx";
+import { SwaHome } from "./views/forceHome.jsx";
+import { FavSection } from "./component/favorites.jsx";
+import { SideBar } from "./component/sideBar.jsx";
 
-//create your first component
+
 const Layout = () => {
-	//the basename is used when your project is published in a subdirectory and not in the root of the domain
-	// you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
+	
 	const basename = process.env.BASENAME || "";
 
 	return (
@@ -21,12 +22,19 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
 					<Navbar />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/demo" element={<Demo />} />
-						<Route path="/single/:theid" element={<Single />} />
-						<Route path="*" element={<h1>Not found!</h1>} />
-					</Routes>
+					<div className="container-fluid">
+						<div className="row">
+							<div className="col-sm-12 col-md-3 col-lg-3"><SideBar /></div>
+							<div className="col-sm-12 col-md-9 col-lg-9">
+								<Routes>
+									<Route path="/" element={<SwaHome />} />
+									<Route path="/swaDetails/:types/:uid" element={<DetailsForAll />} />
+									<Route path="/favorites/" element={<FavSection />} />
+									<Route path="*" element={<h1>Not found!</h1>} />
+								</Routes>
+							</div>
+						</div>
+					</div>
 					<Footer />
 				</ScrollToTop>
 			</BrowserRouter>

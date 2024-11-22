@@ -1,44 +1,66 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			url: 'https://www.swapi.tech/api/',
+			people: JSON.parse(localStorage.getItem('people')) || [],
+			favorites: JSON.parse(localStorage.getItem('favorites')) || [],
+			all_details: {},
+			selection_view: 'home'
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			saveLocalStorage: () => {
+				localStorage.setItem('people', JSON.stringify(getStore().people));
+                localStorage.setItem('favorites', JSON.stringify(getStore().favorites));
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
+			setSelectionView: (view) => setStore({selection_view: view}),
+			addRemoveFavs: (favs) => {
 				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
+				const fav = store.favorites.some(el => el.uid === favs.uid && el.types === favs.types);
+			
+				if (fav) {
+					setStore({
+						favorites: store.favorites.filter(el => !(el.uid === favs.uid && el.types === favs.types))
+					});
+				} else {
+					
+					if (favs.name && favs.uid && favs.img && favs.types) {
+						setStore({
+							favorites: [...store.favorites, favs],
+						});
+					} else {
+						console.error("Invalid favorite object:", favs);
+					}
+				}
+				getActions().saveLocalStorage();
+			},
+			getDataBank: async (types) => {
+				if (getStore()[types]?.length > 0) return;
+				try {
+					const res = await fetch(getStore().url + `${types}/`);
+					if(!res.ok) throw new Error('Something went wrong loading the characters');
+					const data = await res.json();
+					setStore({[types]: data.results})
+				} catch (error) {
+					console.error(error)
+				}
+				getActions().saveLocalStorage();
+			},
+			getAllDetails: async (types, uid) => {
+				try {
+					const res = await fetch(getStore().url + `/${types}/${uid}`);
+					if(!res.ok) throw new Error('Something went wrong loadig data');
+					const data = await res.json();
+					console.log(data)
+					setStore({all_details: data.result})
+				} catch (error) {
+					console.error(error)
+				}
+			},
+			clearCharacterInfo: () => {
+				setStore({all_details: {}})
 			}
 		}
+		
 	};
 };
 

@@ -1,0 +1,12 @@
+.nav-pills .nav-link.active{
+    background-color: transparent ;
+    border: 1px solid white;
+}
+.nav-pills .nav-link{
+    color: white;
+}
+.carousel-inner.carousel_styles {
+    border: 1px solid #ffd813f8;
+    border-radius: 15px;
+    background-size: cover;
+}
